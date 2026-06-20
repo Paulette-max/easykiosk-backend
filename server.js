@@ -93,6 +93,22 @@ app.post('/api/categories', (req, res) => {
   return res.status(201).json(c);
 });
 
+app.put('/api/categories/:id', (req, res) => {
+  const id = req.params.id;
+  const idx = db.categories.findIndex(c => c._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Category not found' });
+  db.categories[idx] = Object.assign({}, db.categories[idx], req.body, { _id: id });
+  return res.json(db.categories[idx]);
+});
+
+app.delete('/api/categories/:id', (req, res) => {
+  const id = req.params.id;
+  const idx = db.categories.findIndex(c => c._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Category not found' });
+  db.categories.splice(idx, 1);
+  return res.status(204).end();
+});
+
 // Suppliers
 app.get('/api/suppliers', (req, res) => res.json(db.suppliers));
 app.post('/api/suppliers', (req, res) => {

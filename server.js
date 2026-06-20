@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
+const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
@@ -23,6 +24,27 @@ if (process.env.MONGO_URI) {
 
 app.get('/', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// --- Mock API endpoints to avoid 404s during development ---
+app.get('/api/products', (req, res) => {
+  return res.json([]);
+});
+
+app.get('/api/sales', (req, res) => {
+  return res.json([]);
+});
+
+app.get('/api/stock-moves', (req, res) => {
+  return res.json([]);
+});
+
+app.get('/api/categories', (req, res) => {
+  return res.json([]);
+});
+
+app.get('/api/suppliers', (req, res) => {
+  return res.json([]);
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

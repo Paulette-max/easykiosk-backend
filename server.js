@@ -117,4 +117,20 @@ app.post('/api/suppliers', (req, res) => {
   return res.status(201).json(s);
 });
 
+app.put('/api/suppliers/:id', (req, res) => {
+  const id = req.params.id;
+  const idx = db.suppliers.findIndex(s => s._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Supplier not found' });
+  db.suppliers[idx] = Object.assign({}, db.suppliers[idx], req.body, { _id: id });
+  return res.json(db.suppliers[idx]);
+});
+
+app.delete('/api/suppliers/:id', (req, res) => {
+  const id = req.params.id;
+  const idx = db.suppliers.findIndex(s => s._id === id);
+  if (idx === -1) return res.status(404).json({ error: 'Supplier not found' });
+  db.suppliers.splice(idx, 1);
+  return res.status(204).end();
+});
+
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

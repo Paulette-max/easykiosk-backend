@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/react';
 import axios from 'axios';
 import './App.css';
 
@@ -733,6 +734,15 @@ function App() {
         <div className="main">
           <div className="topbar">
             <div className="topbar-title">{activePage.charAt(0).toUpperCase() + activePage.slice(1)}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <SignedOut>
+                <SignInButton mode="modal" />
+                <SignUpButton mode="modal" />
+              </SignedOut>
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+            </div>
           </div>
           <div className="content">
             {activePage === 'dashboard' && <Dashboard />}
